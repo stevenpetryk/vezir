@@ -1,0 +1,27 @@
+{
+  "name": "kale",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ui/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-chess/chessground": "^1.3.4",
+    "chessground": "^8.3.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.6",
+    "parcel": "^2.9.3",
+    "prettier": "^2.8.8",
+    "process": "^0.11.10",
+    "svgo": "^3.0.2",
+    "typescript": "^5.1.6"
+  }
+}
