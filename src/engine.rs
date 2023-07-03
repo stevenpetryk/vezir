@@ -1,5 +1,5 @@
 pub mod fen;
-pub mod moves;
+pub mod game_move;
 pub mod piece;
 pub mod player;
 pub mod position;

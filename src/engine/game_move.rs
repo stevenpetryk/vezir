@@ -1,8 +1,8 @@
 use super::square::Square;
 
-pub struct Move {
+pub struct GameMove {
     pub from: Square,
     pub to: Square,
 }
 
-impl Move {}
+impl GameMove {}
