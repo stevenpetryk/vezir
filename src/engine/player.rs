@@ -1,5 +1,8 @@
-#[derive(Clone, Debug)]
+use num_derive::FromPrimitive;
+
+#[derive(Debug, FromPrimitive)]
+#[repr(u8)]
 pub enum Player {
-    White,
-    Black,
+    White = 8,
+    Black = 16,
 }

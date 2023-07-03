@@ -79,7 +79,7 @@ impl Position {
 
 impl Piece {
     pub fn from_fen_char(char: char) -> Result<Piece, String> {
-        let color = if char.is_lowercase() { Black } else { White };
+        let player = if char.is_lowercase() { Black } else { White };
 
         let piece_type = match char.to_lowercase().collect::<Vec<char>>()[0] {
             'p' => Pawn,
@@ -91,11 +91,11 @@ impl Piece {
             _ => return Err("Invalid piece type".to_string()),
         };
 
-        Ok(Piece::new(color, piece_type))
+        Ok(Piece::build(player, piece_type))
     }
 
     pub fn to_fen_char(&self) -> char {
-        let char = match self.piece_type {
+        let char = match self.piece_type() {
             Pawn => 'p',
             Knight => 'n',
             Bishop => 'b',
@@ -104,7 +104,7 @@ impl Piece {
             King => 'k',
         };
 
-        let with_capitalization = match self.color {
+        let with_capitalization = match self.player() {
             White => char.to_uppercase().collect::<Vec<char>>()[0],
             Black => char,
         };

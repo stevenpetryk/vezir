@@ -27,7 +27,7 @@ impl Debug for Position {
             }
 
             match piece {
-                Some(piece) => board_string.push_str(&format!("{:?}", piece)),
+                Some(piece) => board_string.push_str(&format!("{}", piece.to_fen_char())),
                 None => board_string.push_str("."),
             }
         }
