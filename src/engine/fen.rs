@@ -25,7 +25,7 @@ impl Position {
 
         let fen_parts: Vec<&str> = fen.split(" ").collect();
 
-        let occupancies: [Option<Piece>; 64] = {
+        let occupancies = {
             let mut occupancies = [const { None }; 64];
 
             let mut index: usize = 0;

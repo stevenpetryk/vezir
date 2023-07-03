@@ -1,4 +1,5 @@
 #![feature(inline_const)]
+#![feature(assert_matches)]
 
 mod engine;
 
