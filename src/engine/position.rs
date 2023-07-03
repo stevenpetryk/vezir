@@ -1,6 +1,8 @@
 use super::{piece::Piece, player::Player};
 use core::fmt::{Debug, Error, Formatter};
 
+const DARK_SQUARE: &str = "\x1b[38;5;240m■ \x1b[0m";
+
 #[derive(Debug)]
 pub struct CastlingRights {
     pub white_king: bool,
@@ -26,9 +28,11 @@ impl Debug for Position {
                 board_string.push_str("\n");
             }
 
+            let dark_square = ((index / 8) + (index % 8)) % 2 == 0;
+
             match piece {
-                Some(piece) => board_string.push_str(&format!("{}", piece.to_fen_char())),
-                None => board_string.push_str("."),
+                Some(piece) => board_string.push_str(&format!("{} ", piece.to_unicode())),
+                None => board_string.push_str(if dark_square { DARK_SQUARE } else { "  " }),
             }
         }
 

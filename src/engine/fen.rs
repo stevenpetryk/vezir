@@ -111,6 +111,27 @@ impl Piece {
 
         with_capitalization
     }
+
+    pub fn to_unicode(&self) -> char {
+        match self.player() {
+            Black => match self.piece_type() {
+                Pawn => '♙',
+                Knight => '♘',
+                Bishop => '♗',
+                Rook => '♖',
+                Queen => '♕',
+                King => '♔',
+            },
+            White => match self.piece_type() {
+                Pawn => '♟',
+                Knight => '♞',
+                Bishop => '♝',
+                Rook => '♜',
+                Queen => '♛',
+                King => '♚',
+            },
+        }
+    }
 }
 
 #[cfg(test)]
