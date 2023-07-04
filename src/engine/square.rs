@@ -20,7 +20,7 @@ impl Square {
                 let rank_index = (*rank_char as usize) - ('1' as usize);
 
                 Ok(Square {
-                    index: rank_index * 8 + file_index,
+                    index: (7 - rank_index) * 8 + file_index,
                 })
             }
             _ => return Err(SquareParseError),
@@ -35,9 +35,9 @@ mod tests {
 
     #[test]
     fn from_algebraic_notation() {
-        assert_matches!(Square::from_algebraic_notation("a1").unwrap().index, 0);
-        assert_matches!(Square::from_algebraic_notation("b1").unwrap().index, 1);
-        assert_matches!(Square::from_algebraic_notation("h8").unwrap().index, 63);
+        assert_matches!(Square::from_algebraic_notation("a1").unwrap().index, 56);
+        assert_matches!(Square::from_algebraic_notation("b1").unwrap().index, 57);
+        assert_matches!(Square::from_algebraic_notation("h8").unwrap().index, 7);
 
         // Invalid
         assert_matches!(

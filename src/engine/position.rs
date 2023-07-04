@@ -1,5 +1,5 @@
-use super::{piece::Piece, player::Player};
-use core::fmt::{Debug, Error, Formatter};
+use super::{game_move::GameMove, piece::Piece, player::Player};
+use core::fmt;
 
 const DARK_SQUARE: &str = "\x1b[38;5;240m■ \x1b[0m";
 
@@ -11,7 +11,7 @@ pub struct CastlingRights {
     pub black_queen: bool,
 }
 
-// #[derive(Debug)]
+#[derive(Debug)]
 pub struct Position {
     pub occupancies: [Option<Piece>; 64],
     pub to_move: Player,
@@ -19,8 +19,16 @@ pub struct Position {
     pub castling_rights: CastlingRights,
 }
 
-impl Debug for Position {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), Error> {
+impl Position {
+    pub fn apply_move(&mut self, game_move: GameMove) -> &Self {
+        self.occupancies[game_move.to.index] = self.occupancies[game_move.from.index];
+        self.occupancies[game_move.from.index] = None;
+        self
+    }
+}
+
+impl fmt::Display for Position {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let mut board_string = String::new();
 
         for (index, piece) in self.occupancies.iter().enumerate() {
