@@ -6,7 +6,13 @@ pub struct GameMove {
     pub to: Square,
 }
 
-impl GameMove {}
+impl GameMove {
+    pub fn manhattan_distance(&self) -> usize {
+        let file_distance = (self.from.file() as i8 - self.to.file() as i8).abs();
+        let rank_distance = (self.from.rank() as i8 - self.to.rank() as i8).abs();
+        (file_distance + rank_distance) as usize
+    }
+}
 
 impl fmt::Debug for GameMove {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

@@ -25,7 +25,6 @@ impl Position {
                         King => self.generate_king_moves(square),
                     };
 
-                    println!("{:?} {:?}", piece, moves);
                     all_moves.append(&mut moves);
                 }
                 None => continue,
@@ -78,19 +77,40 @@ impl Position {
     }
 
     fn generate_bishop_moves(&self, square: Square) -> Vec<GameMove> {
-        vec![]
+        self.sliding_moves(&square, &BISHOP_OFFSETS)
     }
 
     fn generate_rook_moves(&self, square: Square) -> Vec<GameMove> {
-        vec![]
+        self.sliding_moves(&square, &ROOK_OFFSETS)
     }
 
     fn generate_queen_moves(&self, square: Square) -> Vec<GameMove> {
-        vec![]
+        self.sliding_moves(&square, &QUEEN_OFFSETS)
     }
 
     fn generate_king_moves(&self, square: Square) -> Vec<GameMove> {
-        vec![]
+        self.sliding_moves(&square, &KING_OFFSETS)
+    }
+
+    fn sliding_moves(&self, square: &Square, offsets: &OffsetMap) -> Vec<GameMove> {
+        offsets
+            .iter()
+            .flat_map(|direction| {
+                direction
+                    .iter()
+                    .map_while(|offset| match square.offset(offset) {
+                        Some(new_square) if self.occupancies[new_square.index].is_none() => {
+                            Some(GameMove {
+                                from: Square {
+                                    index: square.index,
+                                },
+                                to: new_square,
+                            })
+                        }
+                        _ => None,
+                    })
+            })
+            .collect()
     }
 }
 

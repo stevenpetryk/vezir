@@ -39,6 +39,17 @@ impl Square {
         }
     }
 
+    pub fn offset(&self, offset: &i8) -> Option<Square> {
+        let new_index = self.index as i8 + offset;
+
+        match new_index {
+            0..=63 => Some(Square {
+                index: new_index as usize,
+            }),
+            _ => None,
+        }
+    }
+
     pub fn from_algebraic_notation(notation: &str) -> Result<Square, SquareParseError> {
         let chars: Vec<char> = notation.chars().collect();
         let file_char = chars.get(0);

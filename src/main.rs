@@ -14,20 +14,20 @@ fn main() {
     )
     .unwrap();
 
-    let board = board.apply_move(GameMove {
-        from: Square::from_algebraic_notation("e2").unwrap(),
-        to: Square::from_algebraic_notation("e4").unwrap(),
-    });
+    // let board = board.apply_move(GameMove {
+    //     from: Square::from_algebraic_notation("e2").unwrap(),
+    //     to: Square::from_algebraic_notation("e4").unwrap(),
+    // });
 
-    let board = board.apply_move(GameMove {
-        from: Square::from_algebraic_notation("e7").unwrap(),
-        to: Square::from_algebraic_notation("e5").unwrap(),
-    });
+    // let board = board.apply_move(GameMove {
+    //     from: Square::from_algebraic_notation("e7").unwrap(),
+    //     to: Square::from_algebraic_notation("e5").unwrap(),
+    // });
 
-    let board = board.apply_move(GameMove {
-        from: Square::from_algebraic_notation("g1").unwrap(),
-        to: Square::from_algebraic_notation("f3").unwrap(),
-    });
+    // let board = board.apply_move(GameMove {
+    //     from: Square::from_algebraic_notation("g1").unwrap(),
+    //     to: Square::from_algebraic_notation("f3").unwrap(),
+    // });
 
     println!("{}", board);
     println!("{:?}", board);
