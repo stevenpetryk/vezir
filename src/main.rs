@@ -27,4 +27,5 @@ fn main() {
     });
 
     println!("{}", board);
+    println!("{:?}", board);
 }

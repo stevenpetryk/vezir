@@ -1,4 +1,8 @@
-use super::{game_move::GameMove, piece::Piece, player::Player};
+use super::{
+    game_move::GameMove,
+    piece::{Piece, PieceType},
+    player::Player,
+};
 use core::fmt;
 
 const DARK_SQUARE: &str = "\x1b[38;5;240m■ \x1b[0m";
@@ -23,13 +27,33 @@ pub struct Position {
 
 impl Position {
     pub fn apply_move(&self, game_move: GameMove) -> Position {
+        let halfmove_clock = {
+            let is_capture = self.occupancies[game_move.to.index].is_some();
+            let is_pawn_move =
+                self.occupancies[game_move.from.index].unwrap().piece_type() == PieceType::Pawn;
+
+            if is_capture || is_pawn_move {
+                0
+            } else {
+                self.halfmove_clock + 1
+            }
+        };
+
+        let fullmove_counter = {
+            if self.to_move == Player::Black {
+                self.fullmove_counter + 1
+            } else {
+                self.fullmove_counter
+            }
+        };
+
         let mut new_position = Position {
             occupancies: self.occupancies.clone(),
             to_move: self.to_move.opponent(),
             castling_rights: self.castling_rights,
             en_passant_square: None,
-            halfmove_clock: self.halfmove_clock + 1,
-            fullmove_counter: self.fullmove_counter + 1,
+            halfmove_clock,
+            fullmove_counter,
         };
 
         new_position.occupancies[game_move.to.index] =

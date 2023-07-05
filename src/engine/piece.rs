@@ -3,7 +3,7 @@ use super::player::Player;
 use core::fmt::Debug;
 use num_derive::FromPrimitive;
 
-#[derive(Debug, FromPrimitive)]
+#[derive(Debug, FromPrimitive, PartialEq)]
 #[repr(u8)]
 pub enum PieceType {
     King = 0,

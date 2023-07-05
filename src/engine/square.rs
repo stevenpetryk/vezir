@@ -7,6 +7,14 @@ pub struct Square {
 pub struct SquareParseError;
 
 impl Square {
+    pub fn file(&self) -> usize {
+        self.index % 8
+    }
+
+    pub fn rank(&self) -> usize {
+        7 - self.index / 8
+    }
+
     pub fn from_algebraic_notation(notation: &str) -> Result<Square, SquareParseError> {
         let chars: Vec<char> = notation.chars().collect();
         let file_char = chars.get(0);
@@ -48,5 +56,16 @@ mod tests {
             Square::from_algebraic_notation("asdf"),
             Err(SquareParseError {})
         );
+    }
+
+    #[test]
+    fn rank_and_file() {
+        let a1 = Square::from_algebraic_notation("a1").unwrap();
+        let h8 = Square::from_algebraic_notation("h8").unwrap();
+        let f3 = Square::from_algebraic_notation("f3").unwrap();
+
+        assert_eq!((a1.file(), a1.rank()), (0, 0));
+        assert_eq!((h8.file(), h8.rank()), (7, 7));
+        assert_eq!((f3.file(), f3.rank()), (5, 2));
     }
 }
