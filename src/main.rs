@@ -1,6 +1,9 @@
 #![feature(inline_const)]
 #![feature(assert_matches)]
 
+#[macro_use]
+extern crate lazy_static;
+
 use crate::engine::{game_move::GameMove, square::Square};
 
 mod engine;
@@ -28,4 +31,5 @@ fn main() {
 
     println!("{}", board);
     println!("{:?}", board);
+    println!("{:?}", board.generate_moves());
 }

@@ -15,6 +15,30 @@ impl Square {
         7 - self.index / 8
     }
 
+    pub fn up(&self) -> Square {
+        Square {
+            index: self.index - 8,
+        }
+    }
+
+    pub fn down(&self) -> Square {
+        Square {
+            index: self.index + 8,
+        }
+    }
+
+    pub fn left(&self) -> Square {
+        Square {
+            index: self.index - 1,
+        }
+    }
+
+    pub fn right(&self) -> Square {
+        Square {
+            index: self.index + 1,
+        }
+    }
+
     pub fn from_algebraic_notation(notation: &str) -> Result<Square, SquareParseError> {
         let chars: Vec<char> = notation.chars().collect();
         let file_char = chars.get(0);
@@ -33,6 +57,14 @@ impl Square {
             }
             _ => return Err(SquareParseError),
         }
+    }
+
+    pub fn to_algebraic_notation(&self) -> String {
+        let file = self.file();
+        let rank = self.rank();
+        let file_char = ('a' as u8 + file as u8) as char;
+        let rank_char = ('1' as u8 + rank as u8) as char;
+        format!("{}{}", file_char, rank_char)
     }
 }
 
