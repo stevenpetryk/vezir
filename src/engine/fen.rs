@@ -18,7 +18,7 @@ impl fmt::Display for FENParseError {
 }
 
 impl Position {
-    pub fn from_fen(fen: &String) -> Result<Position, FENParseError> {
+    pub fn from_fen(fen: &str) -> Result<Position, FENParseError> {
         let parse_error = FENParseError {
             fen: fen.to_string(),
         };
@@ -68,11 +68,29 @@ impl Position {
             }
         };
 
+        let halfmove_clock = match fen_parts.get(4) {
+            Some(&halfmove_clock) => match halfmove_clock.parse::<usize>() {
+                Ok(halfmove_clock) => halfmove_clock,
+                Err(..) => return Err(parse_error),
+            },
+            _ => return Err(parse_error),
+        };
+
+        let fullmove_counter = match fen_parts.get(5) {
+            Some(&fullmove_counter) => match fullmove_counter.parse::<usize>() {
+                Ok(fullmove_counter) => fullmove_counter,
+                Err(..) => return Err(parse_error),
+            },
+            _ => return Err(parse_error),
+        };
+
         Ok(Position {
             occupancies,
             to_move,
             en_passant_square: None,
             castling_rights,
+            halfmove_clock,
+            fullmove_counter,
         })
     }
 }
@@ -92,24 +110,6 @@ impl Piece {
         };
 
         Ok(Piece::build(player, piece_type))
-    }
-
-    pub fn to_fen_char(&self) -> char {
-        let char = match self.piece_type() {
-            Pawn => 'p',
-            Knight => 'n',
-            Bishop => 'b',
-            Rook => 'r',
-            Queen => 'q',
-            King => 'k',
-        };
-
-        let with_capitalization = match self.player() {
-            White => char.to_uppercase().collect::<Vec<char>>()[0],
-            Black => char,
-        };
-
-        with_capitalization
     }
 
     pub fn to_unicode(&self) -> char {

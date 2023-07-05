@@ -3,7 +3,7 @@ use core::fmt;
 
 const DARK_SQUARE: &str = "\x1b[38;5;240m■ \x1b[0m";
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct CastlingRights {
     pub white_king: bool,
     pub white_queen: bool,
@@ -15,15 +15,27 @@ pub struct CastlingRights {
 pub struct Position {
     pub occupancies: [Option<Piece>; 64],
     pub to_move: Player,
-    pub en_passant_square: Option<usize>,
     pub castling_rights: CastlingRights,
+    pub en_passant_square: Option<usize>,
+    pub halfmove_clock: usize,
+    pub fullmove_counter: usize,
 }
 
 impl Position {
-    pub fn apply_move(&mut self, game_move: GameMove) -> &Self {
-        self.occupancies[game_move.to.index] = self.occupancies[game_move.from.index];
-        self.occupancies[game_move.from.index] = None;
-        self
+    pub fn apply_move(&self, game_move: GameMove) -> Position {
+        let mut new_position = Position {
+            occupancies: self.occupancies.clone(),
+            to_move: self.to_move.opponent(),
+            castling_rights: self.castling_rights,
+            en_passant_square: None,
+            halfmove_clock: self.halfmove_clock + 1,
+            fullmove_counter: self.fullmove_counter + 1,
+        };
+
+        new_position.occupancies[game_move.to.index] =
+            new_position.occupancies[game_move.from.index];
+        new_position.occupancies[game_move.from.index] = None;
+        new_position
     }
 }
 
